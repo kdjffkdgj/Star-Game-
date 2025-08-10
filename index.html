@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Attrape l'Étoile - Pour Tayssir 🌟</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fffafc;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+  }
+  h1 {
+    color: #ff69b4;
+    margin-top: 20px;
+  }
+  #instructions {
+    font-size: 1.2rem;
+    color: #ff1493;
+    margin: 10px auto;
+    max-width: 500px;
+    line-height: 1.5;
+    background: #ffe4f2;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  #howToPlay {
+    font-size: 1.1rem;
+    color: #c71585;
+    margin: 10px auto 20px;
+    max-width: 500px;
+    background: #ffd9ec;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: left;
+  }
+  #gameArea {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    border: 2px solid #ffc0cb;
+    background-color: #fff0f5;
+    overflow: hidden;
+    margin: auto;
+  }
+  .star {
+    position: absolute;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .star:hover {
+    transform: scale(1.2);
+  }
+  #score {
+    font-size: 1.5rem;
+    color: #ff1493;
+    margin: 10px;
+  }
+  #message {
+    display: none;
+    font-size: 2rem;
+    color: #ff69b4;
+    margin-top: 20px;
+    animation: pop 0.5s ease forwards;
+  }
+  @keyframes pop {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+  <h1>🌟 Jeu Attrape l'Étoile 🌟</h1>
+  <div id="instructions">Coucou Tayssir 💖 ! Des étoiles vont apparaître pendant un court instant — clique dessus rapidement pour gagner des points. Attrape 10 étoiles pour découvrir ton message surprise ! Prête ? ⭐</div>
+
+  <div id="howToPlay">
+    <strong>Comment jouer :</strong><br>
+    1. Lis les instructions ci-dessus.<br>
+    2. Regarde la zone de jeu rose ci-dessous.<br>
+    3. Clique rapidement sur les étoiles ⭐ qui apparaissent.<br>
+    4. Chaque étoile cliquée te donne 1 point.<br>
+    5. Atteins 10 points pour gagner et voir ton message spécial !<br>
+    🎯 Amuse-toi bien !
+  </div>
+
+  <div id="score">Score : 0</div>
+  <div id="gameArea"></div>
+  <div id="message">💖 Félicitations Tayssir ! Tu as attrapé les étoiles plus vite que tout le monde ! 💖</div>
+
+<script>
+  const gameArea = document.getElementById('gameArea');
+  const scoreDisplay = document.getElementById('score');
+  const message = document.getElementById('message');
+  let score = 0;
+  const targetScore = 10;
+
+  function spawnStar() {
+    const star = document.createElement('div');
+    star.textContent = '⭐';
+    star.classList.add('star');
+
+    const padding = 30; // marge pour éviter que l'étoile soit trop proche du bord
+    const maxX = gameArea.clientWidth - padding;
+    const maxY = gameArea.clientHeight - padding;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    
+    star.style.left = `${x}px`;
+    star.style.top = `${y}px`;
+    
+    star.addEventListener('click', () => {
+      score++;
+      scoreDisplay.textContent = `Score : ${score}`;
+      star.remove();
+      if (score >= targetScore) {
+        message.style.display = 'block';
+        gameArea.innerHTML = '';
+      }
+    });
+
+    gameArea.appendChild(star);
+
+    setTimeout(() => {
+      if (gameArea.contains(star)) {
+        star.remove();
+      }
+    }, 1000); // étoile visible 1 seconde
+  }
+
+  // Lancer le jeu après un délai pour laisser le temps de lire les instructions
+  setTimeout(() => {
+    setInterval(spawnStar, 1200);
+  }, 3000);
+</script>
+</body>
+</html>
